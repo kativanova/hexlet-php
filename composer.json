@@ -1,0 +1,11 @@
+{
+    "name": "hex/example",
+    "description": "example package",
+    "authors": [
+        {
+            "name": "Ekaterina Ivanova",
+            "email": "eivanova@cs-cart.com"
+        }
+    ],
+    "require": {}
+}
