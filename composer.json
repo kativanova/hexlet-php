@@ -1,5 +1,10 @@
 {
     "name": "hex/example",
+    "autoload": {
+        "files": [
+            "src/Runner.php"
+        ]
+    },
     "description": "example package",
     "authors": [
         {
