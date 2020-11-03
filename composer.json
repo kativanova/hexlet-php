@@ -3,7 +3,8 @@
     "autoload": {
         "files": [
             "src/Runner.php",
-            "src/Binary.php"
+            "src/Binary.php",
+            "src/PowerOfThree.php"
         ]
     },
     "description": "example package",
