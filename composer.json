@@ -4,7 +4,8 @@
         "files": [
             "src/Runner.php",
             "src/Binary.php",
-            "src/PowerOfThree.php"
+            "src/PowerOfThree.php",
+            "src/Fib.php"
         ]
     },
     "description": "example package",
