@@ -6,10 +6,10 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function Hexlet\Php\Numbers\isPerfect;
+use function Hexlet\Php\Ticket\isHappy;
 
-var_dump(isPerfect(6)); //true
-var_dump(isPerfect(28)); //true
-var_dump(isPerfect(14)); //true
-var_dump(isPerfect(66)); //true
-var_dump(isPerfect(33550336)); //true
+var_dump(isHappy('385916')); //true
+var_dump(isHappy('231002')); //false
+var_dump(isHappy('1222')); //false
+var_dump(isHappy('054702')); //true
+var_dump(isHappy('00')); //true

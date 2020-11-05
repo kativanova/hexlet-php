@@ -8,7 +8,8 @@
             "src/Fib.php",
             "src/AddDigits.php",
             "src/Brackets.php",
-            "src/Numbers.php"
+            "src/Numbers.php",
+            "src/Ticket.php"
         ]
     },
     "description": "example package",
