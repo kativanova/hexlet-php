@@ -6,7 +6,8 @@
             "src/Binary.php",
             "src/PowerOfThree.php",
             "src/Fib.php",
-            "src/AddDigits.php"
+            "src/AddDigits.php",
+            "src/Brackets.php"
         ]
     },
     "description": "example package",

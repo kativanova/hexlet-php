@@ -6,7 +6,11 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function Hexlet\Php\AddDigits\addDigits;
+use function Hexlet\Php\Brackets\isBalanced;
 
-var_dump(addDigits(0)); // 0
-var_dump(addDigits(919)); // 1
+var_dump(isBalanced('(())')); // true
+var_dump(isBalanced('((())')); // false
+var_dump(isBalanced(')((())')); // false
+var_dump(isBalanced('')); // true
+var_dump(isBalanced('(()())')); // true
+var_dump(isBalanced('((a)*(b))')); // true
