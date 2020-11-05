@@ -9,7 +9,7 @@ function addDigits(int $number): int
 
     while ($strLenght > 1) {
         $sum = 0;
-        for($i = 0; $i < $strLenght; $i++) {
+        for ($i = 0; $i < $strLenght; $i++) {
             $sum += (int) $numberStr[$i];
         }
         $numberStr = (string) $sum;
