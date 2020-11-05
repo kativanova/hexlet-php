@@ -9,7 +9,8 @@
             "src/AddDigits.php",
             "src/Brackets.php",
             "src/Numbers.php",
-            "src/Ticket.php"
+            "src/Ticket.php",
+            "src/Solution.php"
         ]
     },
     "description": "example package",
