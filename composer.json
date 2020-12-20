@@ -10,7 +10,8 @@
             "src/Brackets.php",
             "src/Numbers.php",
             "src/Ticket.php",
-            "src/Solution.php"
+            "src/Solution.php",
+            "src/Arrays.php"
         ]
     },
     "description": "example package",

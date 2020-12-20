@@ -6,6 +6,10 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function Hexlet\Php\Solution\fizzBuzz;
+use function App\Arrays\flatten;
 
-fizzBuzz(11, 20);
+
+// Для пустого массива возвращается []
+print_r(flatten([])); // []
+print_r(flatten([1, [3, 2], 9])); // [1, 3, 2, 9]
+print_r(flatten([1, [[2], [3]], [9]])); // [1, [2], [3], 9]
