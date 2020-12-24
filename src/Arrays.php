@@ -2,6 +2,40 @@
 
 namespace App\Arrays;
 
+/* Принимает двумерный массив (матрицу) и возвращает массив, изменённый таким образом, 
+что правая половина матрицы становится зеркальной копией левой половины, 
+симметричной относительно вертикальной оси матрицы. Для простоты условимся, что матрица 
+всегда имеет чётное количество столбцов и количество столбцов всегда равно количеству строк. 
+  [11, 12, 13, 14],
+  [21, 22, 23, 24],
+  [31, 32, 33, 34],
+  [41, 42, 43, 44],*/
+// → [
+//     [11, 12, 12, 11],
+//     [21, 22, 22, 21],
+//     [31, 32, 32, 31],
+//     [41, 42, 42, 41],
+//   ]
+function getMirrorMatrix(array $matrix)
+{
+    $result = [];
+    $length = count($matrix);
+    foreach ($matrix as $row) {
+        $resultRow = [];
+        for ($i = 0; $i < $length; $i++) {
+            if ($i < $length / 2) {
+                $resultRow[$i] = $row[$i];
+            } else {
+                $resultRow[$i] = $row[$length - 1 - $i];
+            }
+            //$resultRow[$i] = $row[$i];
+        }
+        //$result[] = [...$resultRow, ...array_reverse($resultRow)];
+        $result[] = $resultRow;
+    }
+    return $result;
+}
+
 function flatten(array $arr)
 {
     $result = [];

@@ -6,22 +6,13 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function Hexlet\Php\Solution\sumIntervals;
+use function App\Arrays\getMirrorMatrix;
 
-/* echo sumIntervals([
-    [1, 2],
-    [11, 12]
- ]); // 2
- */
-echo sumIntervals([
-    [1, 9],
-    [7, 12],
-    [3, 4]
- ]); // 11 */
- echo sumIntervals([
-    [1, 5],
-    [-10, 19],
-    [1, 7],
-    [16, 100],
-    [5, 11]
- ]); // 110
+print_r(
+   getMirrorMatrix([
+      [11, 12, 13, 14],
+      [21, 22, 23, 24],
+      [31, 32, 33, 34],
+      [41, 42, 43, 44],
+      ])
+   );
