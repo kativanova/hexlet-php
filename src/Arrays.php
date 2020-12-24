@@ -20,7 +20,7 @@ function flatten(array $arr)
     do {
         $isFlattened = false;
         $result = [];
-        
+
         foreach ($arr as $item) {
             if (is_array($item)) {
                 $result = [...$result, ...$item];
@@ -29,7 +29,7 @@ function flatten(array $arr)
                 $result[] = $item;
             }
         }
-        $arr = $result;    
+        $arr = $result;
     } while ($isFlattened);
     return $arr;
 } */
@@ -69,7 +69,7 @@ function getIntersectionOfSortedArray(array $arr1, array $arr2)
 {
     $result = [];
     $lenght1 = count($arr1);
-    $lenght2 = count ($arr2);
+    $lenght2 = count($arr2);
 
     $index1 = 0;
     $index2 = 0;
@@ -91,12 +91,12 @@ function getIntersectionOfSortedArray(array $arr1, array $arr2)
 function checkIfBalanced(string $expression)
 {
     $stack = [];
-    for($i = 0, $length = strlen($expression); $i < $length; $i++) {
+    for ($i = 0, $length = strlen($expression); $i < $length; $i++) {
         if ($expression[$i] === '(') {
             array_push($stack, '(');
         } elseif ($expression[$i] === ')') {
             if (!empty($stack)) {
-                array_pop($stack);    
+                array_pop($stack);
             } else {
                 return false;
             }
@@ -110,8 +110,8 @@ function bubbleSort(array &$arr)
     $size = count($arr);
     do {
         $isSwitched = false;
-        for($i = 0; $i < $size - 1; $i++) {
-            if($arr[$i] > $arr [$i + 1]) {
+        for ($i = 0; $i < $size - 1; $i++) {
+            if ($arr[$i] > $arr [$i + 1]) {
                 $tmp = $arr[$i];
                 $arr[$i] = $arr[$i + 1];
                 $arr[$i + 1] = $tmp;
@@ -121,7 +121,6 @@ function bubbleSort(array &$arr)
         }
 
         $size = $size - 1;
-
     } while ($isSwitched === true);
 
     return $arr;
@@ -131,7 +130,7 @@ function countUniqChars(string $str)
 {
     $uniqueChars = [];
     for ($i = 0; $i < strlen($str); $i++) {
-        if(!in_array($str[$i], $uniqueChars)) {
+        if (!in_array($str[$i], $uniqueChars)) {
             $uniqueChars[] = $str[$i];
         }
     }
@@ -144,7 +143,7 @@ function getSameCount(array $first, array $second)
     $second = removeDuplicates($second);
 
     $countOfCommonElements = 0;
-    foreach($first as $item) {
+    foreach ($first as $item) {
         if (in_array($item, $second, true)) {
             $countOfCommonElements += 1;
         }
@@ -165,7 +164,7 @@ function removeDuplicates(array $arr)
 
 function makeCensored(string $text, array $replacementList)
 {
-    if($text === '' || empty($replacementList)) {
+    if ($text === '' || empty($replacementList)) {
         return $text;
     }
     $wordList = explode(' ', $text);
@@ -202,8 +201,7 @@ function getSuperSeriesWinner(array $scores): string
     }
     if ($total > 0) {
         return 'canada';
-    }
-    elseif ($total < 0) {
+    } elseif ($total < 0) {
         return 'ussr';
     }
     return null;
