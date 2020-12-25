@@ -6,13 +6,28 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function App\Arrays\getMirrorMatrix;
+use function App\Arrays\countWords;
 
-print_r(
-   getMirrorMatrix([
-      [11, 12, 13, 14],
-      [21, 22, 23, 24],
-      [31, 32, 33, 34],
-      [41, 42, 43, 44],
-      ])
-   );
+// Если предложение пустое, то возвращается пустой объект 
+print_r(countWords(''));
+// []
+
+$text1 = 'one two three two ONE one wow';
+print_r(countWords($text1));
+// [
+//     'one' => 3,
+//     'two' => 2,
+//     'three' => 1,
+//     'wow' => 1
+// ]
+
+$text2 = 'another one sentence with strange Words words';
+print_r(countWords($text2));
+// [
+//     'another' => 1,
+//     'one' =>  1,
+//     'sentence' => 1,
+//     'with' => 1,
+//     'strange' => 1,
+//     'words' => 2
+// ]

@@ -2,6 +2,34 @@
 
 namespace App\Arrays;
 
+// [
+//     'one' => 3,
+//     'two' => 2,
+//     'three' => 1,
+//     'wow' => 1
+// ]
+function countWords(string $sentence)
+{
+    if($sentence === '') {
+        return [];
+    }
+    $wordList = explode(' ', $sentence);
+    $lcWordList = [];
+    foreach ($wordList as $word) {
+        $lcWordList[] = mb_strtolower($word);
+    }
+
+    $result = [];
+    foreach ($lcWordList as $lcWord) {
+        if(array_key_exists($lcWord, $result)) {
+            $result[$lcWord] += 1;
+        } else {
+            $result[$lcWord] = 1;
+        }
+    }
+    return $result;
+}
+
 /* Принимает двумерный массив (матрицу) и возвращает массив, изменённый таким образом, 
 что правая половина матрицы становится зеркальной копией левой половины, 
 симметричной относительно вертикальной оси матрицы. Для простоты условимся, что матрица 
