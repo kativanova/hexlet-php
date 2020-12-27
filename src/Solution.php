@@ -2,6 +2,24 @@
 
 namespace Hexlet\Php\Solution;
 
+//Принимает две матрицы и возвращает новую матрицу — результат их произведения
+function multiply(array $firstMatrix, array $secondMatrix)
+{
+    $result = [];
+    for ($i = 0, $rowFirst = count($firstMatrix); $i < $rowFirst; $i++) {
+        $resCol = [];
+        for ($k = 0, $colSecond = count($secondMatrix[0]); $k < $colSecond; $k++) {
+            $value = 0;
+            for ($j = 0, $colFirst = count($firstMatrix[$i]); $j < $colFirst; $j++) {
+                $value += $firstMatrix[$i][$j] * $secondMatrix[$j][$k];
+            }
+            $resCol[] = $value;
+        }
+        $result[] = $resCol;
+    }
+    return $result;
+}
+
 /* Принимает на вход поле боя в виде квадратного двумерного массива из нулей и единиц. 
  Ноль — пустая ячейка, единица — часть корабля. 
  Функция должна вернуть количество кораблей на поле боя.
@@ -12,7 +30,7 @@ function calcShipsCount(array $field)
         return 0;
     }
     $sum = 0;
-    for($i = 0, $count = count($field); $i < $count; $i++) {
+    for ($i = 0, $count = count($field); $i < $count; $i++) {
         for ($j = 0; $j < $count; $j++) {
             if ($field[$i][$j]) {
                 if (array_key_exists($j + 1, $field[$i]) && $field[$i][$j + 1]) {
@@ -22,7 +40,8 @@ function calcShipsCount(array $field)
                         $field[$i][$j + $n] = 0;
                         $n++;
                     }
-                } elseif (array_key_exists($i + 1, $field) && $field[$i + 1][$j]) {
+                }
+                elseif (array_key_exists($i + 1, $field) && $field[$i + 1][$j]) {
                     //vertical ship
                     $n = 1;
                     while (array_key_exists($i + $n, $field) && $field[$i + $n][$j]) {
