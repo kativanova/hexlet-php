@@ -6,21 +6,16 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function App\Arrays\getIn;
+use function Hexlet\Php\Solution\genDiff;
 
-$data = [
-  'user' => 'ubuntu',
-  'hosts' => [
-      ['name' => 'web1'],
-      ['name' => 'web2', null => 3, 'active' => false]
-  ]
-];
-
-print_r(getIn($data, ['undefined'])); // null
-print_r(getIn($data, ['user'])); // 'ubuntu'
-getIn($data, ['user', 'ubuntu']); // null
-print_r(getIn($data, ['hosts', 1, 'name'])); // 'web2'
-var_dump(getIn($data, ['hosts', 0])); // ['name' => 'web1']
-//getIn($data, ['hosts', 1, null]); // 3
-//getIn($data, ['hosts', 1, 'active']); // false
-
+$result = genDiff(
+  ['one' => 'eon', 'two' => 'two', 'four' => true],
+  ['two' => 'own', 'zero' => 4, 'four' => true]
+);
+print_r($result);
+// [
+//   'one' => 'deleted',
+//   'two' => 'changed',
+//   'four' => 'unchanged',
+//   'zero' => 'added',
+// ]

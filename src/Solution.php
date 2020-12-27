@@ -2,6 +2,30 @@
 
 namespace Hexlet\Php\Solution;
 
+/* Сравнивает два ассоциативных массива и возвращает результат сравнения в виде ассоциативного массива.
+Ключами результирующего массива будут все ключи из двух входящих массивов,
+а значением строка с описанием отличий => added, deleted, changed или unchanged.
+['one' => 'eon', 'two' => 'two', 'four' => true],
+['two' => 'own', 'zero' => 4, 'four' => true]
+*/
+function genDiff(array $first, array $second)
+{
+    $keyList = array_unique(array_merge(array_keys($first), array_keys($second)));
+    $result = [];
+    foreach ($keyList as $key) {
+        if (!array_key_exists($key, $first)) {
+            $result[$key] = 'added';
+        } elseif (!array_key_exists($key, $second)) {
+            $result[$key] = 'deleted';
+        } elseif ($first[$key] === $second[$key]) {
+            $result[$key] = 'unchanged';
+        } else {
+            $result[$key] = 'changed';
+        }
+    }
+    return $result;
+}
+
 //Принимает две матрицы и возвращает новую матрицу — результат их произведения
 function multiply(array $firstMatrix, array $secondMatrix)
 {
@@ -20,8 +44,8 @@ function multiply(array $firstMatrix, array $secondMatrix)
     return $result;
 }
 
-/* Принимает на вход поле боя в виде квадратного двумерного массива из нулей и единиц. 
- Ноль — пустая ячейка, единица — часть корабля. 
+/* Принимает на вход поле боя в виде квадратного двумерного массива из нулей и единиц.
+ Ноль — пустая ячейка, единица — часть корабля.
  Функция должна вернуть количество кораблей на поле боя.
  */
 function calcShipsCount(array $field)
@@ -40,8 +64,7 @@ function calcShipsCount(array $field)
                         $field[$i][$j + $n] = 0;
                         $n++;
                     }
-                }
-                elseif (array_key_exists($i + 1, $field) && $field[$i + 1][$j]) {
+                } elseif (array_key_exists($i + 1, $field) && $field[$i + 1][$j]) {
                     //vertical ship
                     $n = 1;
                     while (array_key_exists($i + $n, $field) && $field[$i + $n][$j]) {
@@ -58,7 +81,7 @@ function calcShipsCount(array $field)
     return $sum;
 }
 
-/* Корабли не должны соприкасаться друг с другом. Функция проверяет расстановку кораблей на корректность. 
+/* Корабли не должны соприкасаться друг с другом. Функция проверяет расстановку кораблей на корректность.
  print_r(isValidField([
  [0, 1, 0, 0],
  [1, 0, 0, 1],
@@ -100,8 +123,7 @@ function compareVersion(string $version1, string $version2)
     for ($i = 0; $i < 2; $i++) {
         if ($first[$i] > $second[$i]) {
             return 1;
-        }
-        elseif ($first[$i] < $second[$i]) {
+        } elseif ($first[$i] < $second[$i]) {
             return -1;
         }
     }
@@ -113,7 +135,7 @@ function compareVersion(string $version1, string $version2)
 function getChunked(array $arr, int $size)
 {
     $result = [];
-    for ($i = 0, $maxIndex = count($arr); $i < $maxIndex; ) {
+    for ($i = 0, $maxIndex = count($arr); $i < $maxIndex;) {
         $item = [];
         for ($j = 0; $j < $size && $i < $maxIndex; $j++) {
             $item[] = $arr[$i];
@@ -158,14 +180,11 @@ function fizzBuzz(int $begin, int $end)
     for ($i = $begin; $i <= $end; $i++) {
         if ($i % 15 === 0) {
             print_r('FizzBuzz');
-        }
-        elseif ($i % 5 === 0) {
+        } elseif ($i % 5 === 0) {
             print_r('Buzz');
-        }
-        elseif ($i % 3 === 0) {
+        } elseif ($i % 3 === 0) {
             print_r('Fizz');
-        }
-        else {
+        } else {
             print_r($i);
         }
         print_r(' ');

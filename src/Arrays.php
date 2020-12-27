@@ -29,18 +29,17 @@ function countWords(string $sentence)
     foreach ($lcWordList as $lcWord) {
         if (array_key_exists($lcWord, $result)) {
             $result[$lcWord] += 1;
-        }
-        else {
+        } else {
             $result[$lcWord] = 1;
         }
     }
     return $result;
 }
 
-/* Принимает двумерный массив (матрицу) и возвращает массив, изменённый таким образом, 
- что правая половина матрицы становится зеркальной копией левой половины, 
- симметричной относительно вертикальной оси матрицы. Для простоты условимся, что матрица 
- всегда имеет чётное количество столбцов и количество столбцов всегда равно количеству строк. 
+/* Принимает двумерный массив (матрицу) и возвращает массив, изменённый таким образом,
+ что правая половина матрицы становится зеркальной копией левой половины,
+ симметричной относительно вертикальной оси матрицы. Для простоты условимся, что матрица
+ всегда имеет чётное количество столбцов и количество столбцов всегда равно количеству строк.
  [11, 12, 13, 14],
  [21, 22, 23, 24],
  [31, 32, 33, 34],
@@ -60,8 +59,7 @@ function getMirrorMatrix(array $matrix)
         for ($i = 0; $i < $length; $i++) {
             if ($i < $length / 2) {
                 $resultRow[$i] = $row[$i];
-            }
-            else {
+            } else {
                 $resultRow[$i] = $row[$length - 1 - $i];
             }
         //$resultRow[$i] = $row[$i];
@@ -78,8 +76,7 @@ function flatten(array $arr)
     foreach ($arr as $item) {
         if (is_array($item)) {
             $result = [...$result, ...$item];
-        }
-        else {
+        } else {
             $result[] = $item;
         }
     }
@@ -149,11 +146,9 @@ function getIntersectionOfSortedArray(array $arr1, array $arr2)
             $result[] = $arr1[$index1];
             $index1++;
             $index2++;
-        }
-        elseif ($arr1[$index1] > $arr2[$index2]) {
+        } elseif ($arr1[$index1] > $arr2[$index2]) {
             $index2++;
-        }
-        else {
+        } else {
             $index1++;
         }
     }
@@ -166,12 +161,10 @@ function checkIfBalanced(string $expression)
     for ($i = 0, $length = strlen($expression); $i < $length; $i++) {
         if ($expression[$i] === '(') {
             array_push($stack, '(');
-        }
-        elseif ($expression[$i] === ')') {
+        } elseif ($expression[$i] === ')') {
             if (!empty($stack)) {
                 array_pop($stack);
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -275,8 +268,7 @@ function getSuperSeriesWinner(array $scores): string
     }
     if ($total > 0) {
         return 'canada';
-    }
-    elseif ($total < 0) {
+    } elseif ($total < 0) {
         return 'ussr';
     }
     return null;
