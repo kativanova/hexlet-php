@@ -2,15 +2,26 @@
 
 namespace App\Arrays;
 
-// [
-//     'one' => 3,
-//     'two' => 2,
-//     'three' => 1,
-//     'wow' => 1
-// ]
+function getIn(array $data, array $keyList)
+{
+    $inner = $data;
+    for ($i = 0, $count = count($keyList); $i < $count; $i++) {
+        $key = $keyList[$i];
+        if (array_key_exists($key, $inner)) {
+            if ($i === $count - 1) {
+                return $inner[$key];
+            } elseif (is_array($inner[$key])) {
+                $inner = $inner[$key];
+            } else {
+                return null;
+            }
+        }
+    }
+}
+
 function countWords(string $sentence)
 {
-    if($sentence === '') {
+    if ($sentence === '') {
         return [];
     }
     $wordList = explode(' ', $sentence);
@@ -21,9 +32,10 @@ function countWords(string $sentence)
 
     $result = [];
     foreach ($lcWordList as $lcWord) {
-        if(array_key_exists($lcWord, $result)) {
+        if (array_key_exists($lcWord, $result)) {
             $result[$lcWord] += 1;
-        } else {
+        }
+        else {
             $result[$lcWord] = 1;
         }
     }
@@ -31,13 +43,13 @@ function countWords(string $sentence)
 }
 
 /* Принимает двумерный массив (матрицу) и возвращает массив, изменённый таким образом, 
-что правая половина матрицы становится зеркальной копией левой половины, 
-симметричной относительно вертикальной оси матрицы. Для простоты условимся, что матрица 
-всегда имеет чётное количество столбцов и количество столбцов всегда равно количеству строк. 
-  [11, 12, 13, 14],
-  [21, 22, 23, 24],
-  [31, 32, 33, 34],
-  [41, 42, 43, 44],*/
+ что правая половина матрицы становится зеркальной копией левой половины, 
+ симметричной относительно вертикальной оси матрицы. Для простоты условимся, что матрица 
+ всегда имеет чётное количество столбцов и количество столбцов всегда равно количеству строк. 
+ [11, 12, 13, 14],
+ [21, 22, 23, 24],
+ [31, 32, 33, 34],
+ [41, 42, 43, 44],*/
 // → [
 //     [11, 12, 12, 11],
 //     [21, 22, 22, 21],
@@ -53,10 +65,11 @@ function getMirrorMatrix(array $matrix)
         for ($i = 0; $i < $length; $i++) {
             if ($i < $length / 2) {
                 $resultRow[$i] = $row[$i];
-            } else {
+            }
+            else {
                 $resultRow[$i] = $row[$length - 1 - $i];
             }
-            //$resultRow[$i] = $row[$i];
+        //$resultRow[$i] = $row[$i];
         }
         //$result[] = [...$resultRow, ...array_reverse($resultRow)];
         $result[] = $resultRow;
@@ -70,7 +83,8 @@ function flatten(array $arr)
     foreach ($arr as $item) {
         if (is_array($item)) {
             $result = [...$result, ...$item];
-        } else {
+        }
+        else {
             $result[] = $item;
         }
     }
@@ -78,23 +92,22 @@ function flatten(array $arr)
 }
 
 /* function flatten(array $arr)
-{
-    do {
-        $isFlattened = false;
-        $result = [];
-
-        foreach ($arr as $item) {
-            if (is_array($item)) {
-                $result = [...$result, ...$item];
-                $isFlattened = true;
-            } else {
-                $result[] = $item;
-            }
-        }
-        $arr = $result;
-    } while ($isFlattened);
-    return $arr;
-} */
+ {
+ do {
+ $isFlattened = false;
+ $result = [];
+ foreach ($arr as $item) {
+ if (is_array($item)) {
+ $result = [...$result, ...$item];
+ $isFlattened = true;
+ } else {
+ $result[] = $item;
+ }
+ }
+ $arr = $result;
+ } while ($isFlattened);
+ return $arr;
+ } */
 
 function getDistance(array $point1, array $point2)
 {
@@ -141,9 +154,11 @@ function getIntersectionOfSortedArray(array $arr1, array $arr2)
             $result[] = $arr1[$index1];
             $index1++;
             $index2++;
-        } elseif ($arr1[$index1] > $arr2[$index2]) {
+        }
+        elseif ($arr1[$index1] > $arr2[$index2]) {
             $index2++;
-        } else {
+        }
+        else {
             $index1++;
         }
     }
@@ -156,10 +171,12 @@ function checkIfBalanced(string $expression)
     for ($i = 0, $length = strlen($expression); $i < $length; $i++) {
         if ($expression[$i] === '(') {
             array_push($stack, '(');
-        } elseif ($expression[$i] === ')') {
+        }
+        elseif ($expression[$i] === ')') {
             if (!empty($stack)) {
                 array_pop($stack);
-            } else {
+            }
+            else {
                 return false;
             }
         }
@@ -173,7 +190,7 @@ function bubbleSort(array &$arr)
     do {
         $isSwitched = false;
         for ($i = 0; $i < $size - 1; $i++) {
-            if ($arr[$i] > $arr [$i + 1]) {
+            if ($arr[$i] > $arr[$i + 1]) {
                 $tmp = $arr[$i];
                 $arr[$i] = $arr[$i + 1];
                 $arr[$i + 1] = $tmp;
@@ -263,7 +280,8 @@ function getSuperSeriesWinner(array $scores): string
     }
     if ($total > 0) {
         return 'canada';
-    } elseif ($total < 0) {
+    }
+    elseif ($total < 0) {
         return 'ussr';
     }
     return null;

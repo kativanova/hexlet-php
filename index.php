@@ -6,28 +6,21 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function Hexlet\Php\Solution\multiply;
+use function App\Arrays\getIn;
 
-$matrixA = [[1, 2], [3, 2]];
-$matrixB = [[3, 2], [1, 1]];
-
-var_dump(multiply($matrixA, $matrixB));
-// [[5, 4], [11, 8]]
-
- $matrixC = [
-  [2, 5],
-  [6, 7],
-  [1, 8],
-];
-$matrixD = [
-  [1, 2, 1],
-  [0, 1, 0],
+$data = [
+  'user' => 'ubuntu',
+  'hosts' => [
+      ['name' => 'web1'],
+      ['name' => 'web2', null => 3, 'active' => false]
+  ]
 ];
 
-print_r(multiply($matrixC, $matrixD));
-// [
-//   [2, 9, 2],
-//   [6, 19, 6],
-//   [1, 10, 1],
-// ]
+/* print_r(getIn($data, ['undefined'])); // null
+print_r(getIn($data, ['user'])); // 'ubuntu'
+getIn($data, ['user', 'ubuntu']); // null
+print_r(getIn($data, ['hosts', 1, 'name'])); // 'web2' */
+var_dump(getIn($data, ['hosts', 0])); // ['name' => 'web1']
+//getIn($data, ['hosts', 1, null]); // 3
+//getIn($data, ['hosts', 1, 'active']); // false
 
