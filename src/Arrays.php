@@ -5,18 +5,13 @@ namespace App\Arrays;
 function getIn(array $data, array $keyList)
 {
     $inner = $data;
-    for ($i = 0, $count = count($keyList); $i < $count; $i++) {
-        $key = $keyList[$i];
-        if (array_key_exists($key, $inner)) {
-            if ($i === $count - 1) {
-                return $inner[$key];
-            } elseif (is_array($inner[$key])) {
-                $inner = $inner[$key];
-            } else {
-                return null;
-            }
+    foreach ($keyList as $key) {
+        if (!isset($inner[$key])) {
+            return null;
         }
+        $inner = $inner[$key];
     }
+    return $inner;
 }
 
 function countWords(string $sentence)
