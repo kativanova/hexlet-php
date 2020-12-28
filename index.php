@@ -6,13 +6,17 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function App\Arrays\getSortedNames;
+use function App\Arrays\pick;
 
-$users = [
-  ['name' => 'Bronn', 'gender' => 'male', 'birthday' => '1973-03-23'],
-  ['name' => 'Reigar', 'gender' => 'male', 'birthday' => '1973-11-03'],
-  ['name' => 'Eiegon',  'gender' => 'male', 'birthday' => '1963-11-03'],
-  ['name' => 'Sansa', 'gender' => 'female', 'birthday' => '2012-11-03']
+$data = [
+  'user' => 'ubuntu',
+  'cores' => 4,
+  'os' => 'linux',
+  'null' => null
 ];
 
-print_r(getSortedNames($users)); // ['Bronn', 'Eiegon', 'Reigar', 'Sansa']
+print_r(pick($data, ['user']));       // → ['user' => 'ubuntu']
+print_r(pick($data, ['user', 'os'])); // → ['user' => 'ubuntu', 'os' => 'linux']
+pick($data, []);             // → []
+pick($data, ['none']);       // → []
+var_dump(pick($data, ['null']));    // → ['null' => null]
