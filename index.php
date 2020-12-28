@@ -6,17 +6,15 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function App\Arrays\pick;
+use App\Map;
 
-$data = [
-  'user' => 'ubuntu',
-  'cores' => 4,
-  'os' => 'linux',
-  'null' => null
-];
+$map = Map\make();
+/* $result = Map\get($map, 'key');
+print_r($result); // => null
 
-print_r(pick($data, ['user']));       // → ['user' => 'ubuntu']
-print_r(pick($data, ['user', 'os'])); // → ['user' => 'ubuntu', 'os' => 'linux']
-pick($data, []);             // → []
-pick($data, ['none']);       // → []
-var_dump(pick($data, ['null']));    // → ['null' => null]
+$result = Map\get($map, 'key', 'value');
+print_r($result); // => value */
+
+Map\set($map, 'key2', 'value2');
+$result = Map\get($map, 'key2');
+print_r($result); // => value2

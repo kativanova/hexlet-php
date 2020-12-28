@@ -11,7 +11,8 @@
             "src/Numbers.php",
             "src/Ticket.php",
             "src/Solution.php",
-            "src/Arrays.php"
+            "src/Arrays.php",
+            "src/Map.php"
         ]
     },
     "description": "example package",
