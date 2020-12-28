@@ -2,6 +2,19 @@
 
 namespace App\Arrays;
 
+/* принимает на вход список пользователей, извлекает их имена, 
+сортирует и возвращает отсортированный список имен. 
+*/
+function getSortedNames(array $users)
+{
+    $result = [];
+    foreach ($users as ['name' => $name]) {
+        $result[] = $name;
+    }
+    sort($result);
+    return $result;
+}
+
 function getIn(array $data, array $keyList)
 {
     $inner = $data;

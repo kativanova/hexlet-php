@@ -6,16 +6,13 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function Hexlet\Php\Solution\genDiff;
+use function App\Arrays\getSortedNames;
 
-$result = genDiff(
-  ['one' => 'eon', 'two' => 'two', 'four' => true],
-  ['two' => 'own', 'zero' => 4, 'four' => true]
-);
-print_r($result);
-// [
-//   'one' => 'deleted',
-//   'two' => 'changed',
-//   'four' => 'unchanged',
-//   'zero' => 'added',
-// ]
+$users = [
+  ['name' => 'Bronn', 'gender' => 'male', 'birthday' => '1973-03-23'],
+  ['name' => 'Reigar', 'gender' => 'male', 'birthday' => '1973-11-03'],
+  ['name' => 'Eiegon',  'gender' => 'male', 'birthday' => '1963-11-03'],
+  ['name' => 'Sansa', 'gender' => 'female', 'birthday' => '2012-11-03']
+];
+
+print_r(getSortedNames($users)); // ['Bronn', 'Eiegon', 'Reigar', 'Sansa']
