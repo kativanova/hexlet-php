@@ -2,8 +2,9 @@
 
 namespace App\Func;
 
-use function Funct\Collection\flatten;
 use Funct\Collection;
+
+use function Funct\Collection\flatten;
 
 function sayPrimeOrNot(int $num): void
 {
@@ -100,13 +101,13 @@ function without(array $items, ...$valuesList)
     return array_values($filtered);
 }
 
-function duplicateEach(array $image) 
+function duplicateEach(array $image)
 {
     //return array_map(fn($item) => [$item, $item], $image);
     return Collection\flatten(array_map(fn($item) => [$item, $item], $image));
 }
 
-function enlargeArrayImage (array $image)
+function enlargeArrayImage(array $image)
 {
     $horizonallyStretched = array_map(fn($col) => duplicateEach($col), $image);
     return duplicateEach($horizonallyStretched);

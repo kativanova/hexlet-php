@@ -374,7 +374,7 @@ function findWhere(array $recordsList, array $filtersList)
     $result = array_filter($recordsList, function ($record) use ($filtersList) {
         $find = true;
         foreach ($filtersList as $key => $value) {
-            if($record[$key] != $value) {
+            if ($record[$key] != $value) {
                 $find = false;
             }
         }

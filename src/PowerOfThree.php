@@ -8,7 +8,7 @@ namespace Hexlet\Php\PowerOfThree;
 
 function isPowerOfThree(int $number): bool
 {
-    
+
     if ($number === 0) {
         return false;
     } elseif ($number === 1 || $number % 3 === 0) {
