@@ -6,15 +6,15 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use App\Map;
+use function App\Arrays\findWhere;
 
-$map = Map\make();
-/* $result = Map\get($map, 'key');
-print_r($result); // => null
-
-$result = Map\get($map, 'key', 'value');
-print_r($result); // => value */
-
-Map\set($map, 'key2', 'value2');
-$result = Map\get($map, 'key2');
-print_r($result); // => value2
+$data = [
+  ['title' => 'Book of Fooos', 'author' => 'FooBar', 'year' => 1111],
+  ['title' => 'Cymbeline', 'author' => 'Shakespeare', 'year' => 1611],
+  ['title' => 'The Tempest', 'author' => 'Shakespeare', 'year' => 1611],
+  ['title' => 'Book of Foos Barrrs', 'author' => 'FooBar', 'year' => 2222],
+  ['title' => 'Still foooing', 'author' => 'FooBar', 'year' => 3333],
+  ['title' => 'Happy Foo', 'author' => 'FooBar', 'year' => 4444],
+];
+$where1 = ['author' => 'Shakespeare', 'year' => 1612];
+print_r(findWhere($data, $where1));

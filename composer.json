@@ -12,7 +12,8 @@
             "src/Ticket.php",
             "src/Solution.php",
             "src/Arrays.php",
-            "src/Map.php"
+            "src/Map.php",
+            "src/Functions.php"
         ]
     },
     "description": "example package",
@@ -23,7 +24,8 @@
         }
     ],
     "require": {
-        "tightenco/collect": "^8.0"
+        "tightenco/collect": "^8.0",
+        "funct/funct": "^1.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4",

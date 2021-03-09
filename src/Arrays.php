@@ -2,6 +2,39 @@
 
 namespace App\Arrays;
 
+//которая принимает на вход имя сайта и возвращает информацию о нем:
+function getDomainInfo(string $url)
+{
+    if ($url === '') {
+        return [];
+    }
+    $scheme = [];
+    if (substr($url, 0, 8) === 'https://') {
+        $scheme = 'https';
+    } else {
+        $scheme = 'http';
+    };
+    $name = str_replace("{$scheme}://", '', $url);
+
+    return ['scheme' => $scheme, 'name' => $name];
+}
+
+function getDomainInfo1(string $url)
+{
+    if ($url === '') {
+        return [];
+    }
+    $schemeList = ["https", "http"];
+
+    foreach ($schemeList as $scheme) {
+        $schemeLen = strlen($scheme);
+        if (substr($url, 0, $schemeLen) === $scheme) {
+            return ['scheme' => $scheme, 'name' => substr($url, $schemeLen + 3)];
+        }
+    }
+    return ['scheme' => 'http', name => $url];
+}
+
 /* извлекает из переданного массива все элементы по указанным ключам и возвращает новый массив. Аргументы:
 
     Исходный массив
@@ -335,4 +368,18 @@ function getSameParity(array $numbers)
     }
     return $result;
 }
-// END
+
+function findWhere(array $recordsList, array $filtersList)
+{
+    $result = array_filter($recordsList, function ($record) use ($filtersList) {
+        $find = true;
+        foreach ($filtersList as $key => $value) {
+            if($record[$key] != $value) {
+                $find = false;
+            }
+        }
+        return $find;
+    });
+    return $result;
+    //return null;
+}
