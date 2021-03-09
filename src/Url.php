@@ -4,17 +4,14 @@ namespace App\Url;
 
 function make($url)
 {
-    $urlParts = parse_url($url);
-    $data['scheme'] = $urlParts['scheme'];
-    $data['host'] = $urlParts['host'];
-    $data['path'] = $urlParts['path'];
+    $data = parse_url($url);
 
     $query = [];
-    if (isset($urlParts['query'])) {
-        parse_str($urlParts['query'], $query);
+    if (isset($data['query'])) {
+        parse_str($data['query'], $query);
     }
 
-    $data['query'] = $query;
+    $data['queryParams'] = $query;
 
     return $data;
 }
@@ -52,33 +49,21 @@ function getPath(array $url)
 function setQueryParam(array &$url, $key, $value)
 {
     if ($value === null) {
-        unset($url['query'][$key]);
+        unset($url['queryParams'][$key]);
     } else {
-        $url['query'][$key] = $value;
+        $url['queryParams'][$key] = $value;
     }
 }
 
 function getQueryParam(array &$url, $key, $default = null)
 {
-    if (array_key_exists($key, $url['query'])) {
-        return $url['query'][$key];
-    }
-    return $default;
+    return $url['queryParams'][$key] ?? $default;
 }
 
 function toString(array $url)
 {
-    $queryStr = getQueryString($url['query']);
-    print_r("{$url['scheme']}://{$url['host']}{$url['path']}{$queryStr}");
-    echo PHP_EOL;
-    return "{$url['scheme']}://{$url['host']}{$url['path']}{$queryStr}";
-}
+    $queryStr = http_build_query($url['queryParams']);
+    $fullQueryStr = $queryStr ? "?{$queryStr}" : "";
 
-function getQueryString(array $params)
-{
-    $result = "?";
-    foreach ($params as $key => $value) {
-        $result .= "{$key}={$value}&";
-    }
-    return substr($result, 0, strlen($result) - 1);
+    return "{$url['scheme']}://{$url['host']}{$url['path']}{$fullQueryStr}";
 }

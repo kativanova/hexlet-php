@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is used for exprtimenting with composer
  */
@@ -23,4 +24,4 @@ Url\setQueryParam($url, 'q', 'high');
 //Url\toString($url); // 'http://hexlet.io/404?q=high&page=5'
 
 Url\setQueryParam($url, 'qq', null);
-Url\toString($url); // 'http://hexlet.io/404?page=5'
+print_r(Url\toString($url)); // 'http://hexlet.io/404?page=5'
