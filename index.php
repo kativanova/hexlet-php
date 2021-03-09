@@ -6,15 +6,21 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function App\Arrays\findWhere;
+use App\Url;
 
-$data = [
-  ['title' => 'Book of Fooos', 'author' => 'FooBar', 'year' => 1111],
-  ['title' => 'Cymbeline', 'author' => 'Shakespeare', 'year' => 1611],
-  ['title' => 'The Tempest', 'author' => 'Shakespeare', 'year' => 1611],
-  ['title' => 'Book of Foos Barrrs', 'author' => 'FooBar', 'year' => 2222],
-  ['title' => 'Still foooing', 'author' => 'FooBar', 'year' => 3333],
-  ['title' => 'Happy Foo', 'author' => 'FooBar', 'year' => 4444],
-];
-$where1 = ['author' => 'Shakespeare', 'year' => 1612];
-print_r(findWhere($data, $where1));
+$url = Url\make('https://hexlet.io/community');
+
+Url\setScheme($url, 'http');
+//Url\toString($url); // 'http://hexlet.io/community?q=low'
+
+Url\setPath($url, '/404');
+//Url\toString($url); // 'http://hexlet.io/404?q=low'
+
+Url\setQueryParam($url, 'page', 5);
+//Url\toString($url); // 'http://hexlet.io/404?q=low&page=5'
+
+Url\setQueryParam($url, 'q', 'high');
+//Url\toString($url); // 'http://hexlet.io/404?q=high&page=5'
+
+Url\setQueryParam($url, 'qq', null);
+Url\toString($url); // 'http://hexlet.io/404?page=5'
