@@ -14,7 +14,8 @@
             "src/Arrays.php",
             "src/Map.php",
             "src/Functions.php",
-            "src/Url.php"
+            "src/Url.php",
+            "src/Trees.php"
         ]
     },
     "description": "example package",
