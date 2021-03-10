@@ -14,5 +14,5 @@ use function App\removeFirstLevel\removeFirstLevel;
 $tree1 = [[5], 1, [3, 4]]; 
 print_r(removeFirstLevel($tree1)); // [5, 3, 4]
 
-$tree2 = [];
+$tree2 = [1, 2, [3, 5], [[4, 3], 2]];
 print_r(removeFirstLevel($tree2)); // [3, 5, [4, 3], 2] */
