@@ -77,9 +77,25 @@ function downcaseFileNames(array $tree)
     }
 
     $children = getChildren($tree);
-    $newChildren = array_map(function ($child) {
+/*     $newChildren = array_map(function ($child) {
         return downcaseFileNames($child);
-    }, $children);
+    }, $children); */
+
+    $newChildren = [];
+    foreach($children as $child) {
+        $newChild = downcaseFileNames($child);
+        $newChildren[] = $newChild;
+    }
 
     return mkdir($name, $newChildren, $meta);
 }
+
+$tree = mkdir('/', [
+    mkdir('eTc', [
+        mkdir('NgiNx'),
+        mkdir('CONSUL', [
+            mkfile('coNFig.json'),
+        ]),
+    ]),
+    mkfile('hOsts'),
+]);
