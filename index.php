@@ -10,17 +10,23 @@ require __DIR__ . '/vendor/autoload.php';
 
 use function Php\Immutable\Fs\Trees\trees\mkdir;
 use function Php\Immutable\Fs\Trees\trees\mkfile;
-use function App\trees\downcaseFileNames;
-
+use function App\trees\getHiddenFilesCount;
 
 $tree = mkdir('/', [
-    mkdir('eTc', [
-        mkdir('NgiNx'),
-        mkdir('CONSUL', [
-            mkfile('coNFig.json'),
-        ]),
-    ]),
-    mkfile('hOsts'),
+  mkdir('etc', [
+      mkdir('apache', []),
+      mkdir('nginx', [
+          mkfile('.nginx.conf', ['size' => 800]),
+      ]),
+      mkdir('.consul', [
+          mkfile('.config.json', ['size' => 1200]),
+          mkfile('data', ['size' => 8200]),
+          mkfile('raft', ['size' => 80]),
+      ]),
+  ]),
+  mkfile('.hosts', ['size' => 3500]),
+  mkfile('resolve', ['size' => 1000]),
 ]);
- 
-print_r(downcaseFileNames($tree));
+
+echo getHiddenFilesCount($tree);
+echo PHP_EOL;

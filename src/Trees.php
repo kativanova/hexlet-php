@@ -51,7 +51,7 @@ function changeOwner(array $tree, string $owner)
     $meta = getMeta($tree);
     $meta['owner'] = $owner;
 
-    if(isFile($tree)) {
+    if (isFile($tree)) {
         return mkfile($name, $meta);
     }
 
@@ -63,8 +63,8 @@ function changeOwner(array $tree, string $owner)
     return mkdir($name, $newChildren, $meta);
 }
 
-/* принимает на вход директорию (объект-дерево) и приводит имена всех файлов в этой 
-и во всех вложенных директориях к нижнему регистру. Результат в виде обработанной 
+/* принимает на вход директорию (объект-дерево) и приводит имена всех файлов в этой
+и во всех вложенных директориях к нижнему регистру. Результат в виде обработанной
 директории возвращается наружу. Исходное дерево не изменяется. */
 function downcaseFileNames(array $tree)
 {
@@ -77,12 +77,12 @@ function downcaseFileNames(array $tree)
     }
 
     $children = getChildren($tree);
-/*     $newChildren = array_map(function ($child) {
+    /*     $newChildren = array_map(function ($child) {
         return downcaseFileNames($child);
     }, $children); */
 
     $newChildren = [];
-    foreach($children as $child) {
+    foreach ($children as $child) {
         $newChild = downcaseFileNames($child);
         $newChildren[] = $newChild;
     }
@@ -90,12 +90,80 @@ function downcaseFileNames(array $tree)
     return mkdir($name, $newChildren, $meta);
 }
 
+
 $tree = mkdir('/', [
-    mkdir('eTc', [
-        mkdir('NgiNx'),
-        mkdir('CONSUL', [
-            mkfile('coNFig.json'),
+    mkdir('etc', [
+        mkfile('bashrc'),
+        mkfile('consul.cfg'),
+    ]),
+    mkfile('hexletrc'),
+    mkdir('bin', [
+        mkfile('ls'),
+        mkfile('cat'),
+    ]),
+]);
+
+function getNodesCount(array $node)
+{
+    if (isFile($node)) {
+        return 1;
+    }
+
+    $children = getChildren($node);
+
+/*     $count = 0;
+    foreach ($children as $child) {
+        $childsCount = getNodesCount($child);
+        $count += $childsCount;
+    } */
+
+    $count = 0;
+
+    return 1 + array_reduce($children, function ($acc, $child) {
+        $acc += getNodesCount($child);
+        return $acc;
+    }, $count);
+}
+
+/* считает количество скрытых файлов в директории и всех поддиректориях.
+Скрытым файлом в Linux системах считается файл, название которого начинается с точки. */
+function getHiddenFilesCount($tree)
+{
+    $children = getChildren($tree);
+    $files = array_filter($children, function ($child) {
+        return isFile($child);
+    });
+
+    $directories = array_filter($children, function ($child) {
+        return !isFile($child);
+    });
+
+    $countHiddenFiles = array_reduce($files, function ($acc, $file) {
+        $name = getName($file);
+        $acc += str_starts_with($name, '.') ? 1 : 0;
+        return $acc;
+    }, 0);
+
+    $childsHiddenFilesCount = array_reduce($directories, function ($acc, $directory) {
+        $acc += getHiddenFilesCount($directory);
+        return $acc;
+    }, 0);
+
+    return $countHiddenFiles + $childsHiddenFilesCount;
+}
+
+$tree = mkdir('/', [
+    mkdir('etc', [
+        mkdir('apache', []),
+        mkdir('nginx', [
+            mkfile('.nginx.conf', ['size' => 800]),
+        ]),
+        mkdir('.consul', [
+            mkfile('.config.json', ['size' => 1200]),
+            mkfile('data', ['size' => 8200]),
+            mkfile('raft', ['size' => 80]),
         ]),
     ]),
-    mkfile('hOsts'),
-]);
+    mkfile('.hosts', ['size' => 3500]),
+    mkfile('resolve', ['size' => 1000]),
+  ]);
