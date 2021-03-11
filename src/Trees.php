@@ -129,27 +129,17 @@ function getNodesCount(array $node)
 Скрытым файлом в Linux системах считается файл, название которого начинается с точки. */
 function getHiddenFilesCount($tree)
 {
-    $children = getChildren($tree);
-    $files = array_filter($children, function ($child) {
-        return isFile($child);
-    });
+    $name = getName($tree);
+    if (isFile($tree)) {
+        return str_starts_with($name, '.') ? 1 : 0;
+    }
 
-    $directories = array_filter($children, function ($child) {
-        return !isFile($child);
-    });
+    $chidren = getChildren($tree);
 
-    $countHiddenFiles = array_reduce($files, function ($acc, $file) {
-        $name = getName($file);
-        $acc += str_starts_with($name, '.') ? 1 : 0;
+    return array_reduce($chidren, function ($acc, $child) {
+        $acc += getHiddenFilesCount($child);
         return $acc;
     }, 0);
-
-    $childsHiddenFilesCount = array_reduce($directories, function ($acc, $directory) {
-        $acc += getHiddenFilesCount($directory);
-        return $acc;
-    }, 0);
-
-    return $countHiddenFiles + $childsHiddenFilesCount;
 }
 
 $tree = mkdir('/', [
