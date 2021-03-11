@@ -13,12 +13,13 @@ use function Php\Immutable\Fs\Trees\trees\getMeta;
 
 /* Принимает на вход дерево, и возвращает новое,
 элементами которого являются дети вложенных узлов */
+
 function removeFirstLevel(array $tree)
 {
     $nodes = array_filter($tree, function ($node) {
         return is_array($node);
     });
-    return array_merge(... $nodes);
+    return array_merge(...$nodes);
 }
 
 /* Принимает на вход директорию, находит внутри нее картинки и "сжимает" их.
@@ -27,21 +28,18 @@ function removeFirstLevel(array $tree)
 которые были внутри этой директории. Картинками считаются все файлы заканчивающиеся на .jpg. */
 function compressImages(array $tree)
 {
-    $newTree = [];
     $children = getChildren($tree);
     $compressedChildren = array_map(function ($child) {
-        if (isFile($child)) {
-            $name = getName($child);
-            $meta = getMeta($child);
-            if (strpos($name, '.jpg') == strlen($name) - 4) {
-                $meta['size'] = $meta['size'] / 2;
-            }
-            return mkfile($name, $meta);
+        $name = getName($child);
+        if (!isFile($child) || !str_ends_with($name, '.jpg')) {
+            return $child;
         }
-        return $child;
+
+        $meta = getMeta($child);
+        $meta['size'] /= 2;
+
+        return mkfile($name, $meta);
     }, $children);
 
-    $newTree = mkdir(getName($tree), $compressedChildren, getMeta($tree));
-
-    return $newTree;
+    return mkdir(getName($tree), $compressedChildren, getMeta($tree));
 }
