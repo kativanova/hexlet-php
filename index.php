@@ -10,19 +10,26 @@ require __DIR__ . '/vendor/autoload.php';
 
 use function Php\Immutable\Fs\Trees\trees\mkdir;
 use function Php\Immutable\Fs\Trees\trees\mkfile;
-use function App\trees\compressImages;
+use function Php\Immutable\Fs\Trees\trees\isFile;
+use function Php\Immutable\Fs\Trees\trees\getChildren;
+use function Php\Immutable\Fs\Trees\trees\getName;
+use function Php\Immutable\Fs\Trees\trees\getMeta;
+use function App\trees\changeOwner;
 
 
-$tree = mkdir('my documents', [
-    mkdir('documents.jpg'),
-    mkfile('avatar.jpg', ['size' => 100]),
-    mkfile('passport.jpg', ['size' => 200]),
-    mkfile('family.jpg', ['size' => 150]),
-    mkfile('addresses', ['size' => 125]),
-    mkdir('presentations')
-], [ 'test' => 'haha']);
+$tree = mkdir('/', [
+    mkdir('etc', [
+      mkdir('apache'),
+      mkdir('nginx', [
+        mkfile('nginx.conf'),
+      ]),
+      mkdir('consul', [
+        mkfile('config.json'),
+        mkdir('data'),
+      ]),
+    ]),
+    mkdir('logs'),
+    mkfile('hosts'),
+  ]);
 
-$newTree = compressImages($tree);
-
-//print_r($tree);
-print_r($newTree);
+  print_r(changeOwner($tree, 'root'));

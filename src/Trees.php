@@ -43,3 +43,22 @@ function compressImages(array $tree)
 
     return mkdir(getName($tree), $compressedChildren, getMeta($tree));
 }
+
+
+function changeOwner(array $tree, string $owner)
+{
+    $name = getName($tree);
+    $meta = getMeta($tree);
+    $meta['owner'] = $owner;
+
+    if(isFile($tree)) {
+        return mkfile($name, $meta);
+    }
+
+    $children = getChildren($tree);
+    $newChildren = array_map(function ($child) use ($owner) {
+        return changeOwner($child, $owner);
+    }, $children);
+
+    return mkdir($name, $newChildren, $meta);
+}
