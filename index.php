@@ -7,12 +7,22 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
-use function App\removeFirstLevel\removeFirstLevel;
 
-// Второй уровень тут: 5, 3, 4
+use function Php\Immutable\Fs\Trees\trees\mkdir;
+use function Php\Immutable\Fs\Trees\trees\mkfile;
+use function App\trees\compressImages;
 
-$tree1 = [[5], 1, [3, 4]]; 
-print_r(removeFirstLevel($tree1)); // [5, 3, 4]
 
-$tree2 = [1, 2, [3, 5], [[4, 3], 2]];
-print_r(removeFirstLevel($tree2)); // [3, 5, [4, 3], 2] */
+$tree = mkdir('my documents', [
+    mkdir('documents.jpg'),
+    mkfile('avatar.jpg', ['size' => 100]),
+    mkfile('passport.jpg', ['size' => 200]),
+    mkfile('family.jpg', ['size' => 150]),
+    mkfile('addresses', ['size' => 125]),
+    mkdir('presentations')
+], [ 'test' => 'haha']);
+
+$newTree = compressImages($tree);
+
+//print_r($tree);
+print_r($newTree);
