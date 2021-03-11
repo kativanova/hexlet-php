@@ -62,3 +62,24 @@ function changeOwner(array $tree, string $owner)
 
     return mkdir($name, $newChildren, $meta);
 }
+
+/* принимает на вход директорию (объект-дерево) и приводит имена всех файлов в этой 
+и во всех вложенных директориях к нижнему регистру. Результат в виде обработанной 
+директории возвращается наружу. Исходное дерево не изменяется. */
+function downcaseFileNames(array $tree)
+{
+    $name = getName($tree);
+    $meta = getMeta($tree);
+
+    if (isFile($tree)) {
+        $newName = strtolower($name);
+        return mkfile($newName, $meta);
+    }
+
+    $children = getChildren($tree);
+    $newChildren = array_map(function ($child) {
+        return downcaseFileNames($child);
+    }, $children);
+
+    return mkdir($name, $newChildren, $meta);
+}

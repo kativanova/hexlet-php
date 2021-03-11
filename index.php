@@ -10,26 +10,17 @@ require __DIR__ . '/vendor/autoload.php';
 
 use function Php\Immutable\Fs\Trees\trees\mkdir;
 use function Php\Immutable\Fs\Trees\trees\mkfile;
-use function Php\Immutable\Fs\Trees\trees\isFile;
-use function Php\Immutable\Fs\Trees\trees\getChildren;
-use function Php\Immutable\Fs\Trees\trees\getName;
-use function Php\Immutable\Fs\Trees\trees\getMeta;
-use function App\trees\changeOwner;
+use function App\trees\downcaseFileNames;
 
 
 $tree = mkdir('/', [
-    mkdir('etc', [
-      mkdir('apache'),
-      mkdir('nginx', [
-        mkfile('nginx.conf'),
-      ]),
-      mkdir('consul', [
-        mkfile('config.json'),
-        mkdir('data'),
-      ]),
+    mkdir('eTc', [
+        mkdir('NgiNx'),
+        mkdir('CONSUL', [
+            mkfile('coNFig.json'),
+        ]),
     ]),
-    mkdir('logs'),
-    mkfile('hosts'),
-  ]);
-
-  print_r(changeOwner($tree, 'root'));
+    mkfile('hOsts'),
+]);
+ 
+print_r(downcaseFileNames($tree));
