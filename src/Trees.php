@@ -10,6 +10,8 @@ use function Php\Immutable\Fs\Trees\trees\isFile;
 use function Php\Immutable\Fs\Trees\trees\getChildren;
 use function Php\Immutable\Fs\Trees\trees\getName;
 use function Php\Immutable\Fs\Trees\trees\getMeta;
+use function Php\Immutable\Fs\Trees\trees\isDirectory;
+use function Php\Immutable\Fs\Trees\trees\reduce;
 
 /* Принимает на вход дерево, и возвращает новое,
 элементами которого являются дети вложенных узлов */
@@ -142,18 +144,86 @@ function getHiddenFilesCount($tree)
     }, 0);
 }
 
-$tree = mkdir('/', [
-    mkdir('etc', [
-        mkdir('apache', []),
-        mkdir('nginx', [
-            mkfile('.nginx.conf', ['size' => 800]),
-        ]),
-        mkdir('.consul', [
-            mkfile('.config.json', ['size' => 1200]),
-            mkfile('data', ['size' => 8200]),
-            mkfile('raft', ['size' => 80]),
-        ]),
-    ]),
-    mkfile('.hosts', ['size' => 3500]),
-    mkfile('resolve', ['size' => 1000]),
-  ]);
+function getFilesCount(array $tree)
+{
+    if (isFile($tree)) {
+        return 1;
+    }
+
+    $children = getChildren($tree);
+/* 
+    $count = 0;
+    foreach($children as $child) {
+        $count += getFilesCount($child);
+    }
+
+    return $count;
+*/
+/* 
+    return array_reduce($children, function ($acc, $child) {
+        $acc += getFilesCount($child);
+        return $acc;
+    }, 0);
+ */
+    return array_reduce($children, fn ($acc, $child)  => $acc += getFilesCount($child), 0);
+}
+
+function getSubdirectoriesInfo($tree)
+{
+    $children = getChildren($tree);
+    $directories = array_filter($children, fn($child) => isDirectory($child));
+/* 
+    $result = [];
+    foreach ($directories as $directory) {
+        $name = getName($directory);
+        $numOfChildren = getFilesCount($directory);
+        $result[] = [
+            $name, 
+            $numOfChildren
+        ];
+    }
+    return $result; 
+*/
+/*     
+    return array_map(function ($directory) {
+        return [getName($directory), getFilesCount($directory)];
+    }, $directories);
+ */
+    return array_map(fn($directory) => [getName($directory), getFilesCount($directory)], $directories);
+}
+
+function getSpaceUsage(array $tree)
+{
+    if (isFile($tree)) {
+        $meta = getMeta($tree);
+        if (isset($meta['size'])) {
+            return $meta['size'];
+        }
+    }
+
+    $chidren = getChildren($tree);
+
+    return array_reduce($chidren, fn ($acc, $child) => $acc += getSpaceUsage($child), 0);
+}
+
+function du(array $tree)
+{
+    $directoriesWithSizes = array_map(fn ($chid) => [getName($chid), calculateFilesSize($chid)], getChildren($tree));
+
+    usort($directoriesWithSizes, fn ($arr1, $arr2) => $arr2[1] <=> $arr1[1]);
+
+    return $directoriesWithSizes;
+}
+
+function calculateFilesSize($node)
+{
+    return reduce(function ($acc, $n) {
+        if (isDirectory($n)) {
+            return $acc;
+        }
+
+        $meta = getMeta($n);
+
+        return $acc + $meta['size'];
+    }, $node, 0);
+}
