@@ -4,6 +4,7 @@ namespace App\trees;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use function Php\Immutable\Fs\Trees\trees\array_flatten;
 use function Php\Immutable\Fs\Trees\trees\mkdir;
 use function Php\Immutable\Fs\Trees\trees\mkfile;
 use function Php\Immutable\Fs\Trees\trees\isFile;
@@ -113,7 +114,7 @@ function getNodesCount(array $node)
 
     $children = getChildren($node);
 
-/*     $count = 0;
+    /*     $count = 0;
     foreach ($children as $child) {
         $childsCount = getNodesCount($child);
         $count += $childsCount;
@@ -151,7 +152,7 @@ function getFilesCount(array $tree)
     }
 
     $children = getChildren($tree);
-/* 
+    /*
     $count = 0;
     foreach($children as $child) {
         $count += getFilesCount($child);
@@ -159,7 +160,7 @@ function getFilesCount(array $tree)
 
     return $count;
 */
-/* 
+    /*
     return array_reduce($children, function ($acc, $child) {
         $acc += getFilesCount($child);
         return $acc;
@@ -171,25 +172,25 @@ function getFilesCount(array $tree)
 function getSubdirectoriesInfo($tree)
 {
     $children = getChildren($tree);
-    $directories = array_filter($children, fn($child) => isDirectory($child));
-/* 
+    $directories = array_filter($children, fn ($child) => isDirectory($child));
+    /*
     $result = [];
     foreach ($directories as $directory) {
         $name = getName($directory);
         $numOfChildren = getFilesCount($directory);
         $result[] = [
-            $name, 
+            $name,
             $numOfChildren
         ];
     }
-    return $result; 
+    return $result;
 */
-/*     
+    /*
     return array_map(function ($directory) {
         return [getName($directory), getFilesCount($directory)];
     }, $directories);
  */
-    return array_map(fn($directory) => [getName($directory), getFilesCount($directory)], $directories);
+    return array_map(fn ($directory) => [getName($directory), getFilesCount($directory)], $directories);
 }
 
 function getSpaceUsage(array $tree)
@@ -226,4 +227,78 @@ function calculateFilesSize($node)
 
         return $acc + $meta['size'];
     }, $node, 0);
+}
+
+$tree = mkdir('/', [
+    mkdir('etc', [
+        mkdir('apache'),
+        mkdir('nginx', [
+            mkfile('nginx.conf'),
+        ]),
+        mkdir('consul', [
+            mkfile('config.json'),
+            mkdir('data'),
+        ]),
+    ]),
+    mkdir('logs'),
+    mkfile('hosts'),
+]);
+
+function findEmptyDirPaths($tree)
+{
+    return iter($tree, getName($tree));
+}
+
+function iter($tree, $rootName, $path = '')
+{
+    $name = getName($tree);
+    $children = getChildren($tree);
+
+    if ($name != $rootName) {
+        $path .= "/{$name}";
+    }
+    if ($children == []) {
+        return $path;
+    }
+
+    $directories = array_filter($children, fn ($child) => isDirectory($child));
+
+    $result = array_map(fn ($directory) => iter($directory, $rootName, $path), $directories);
+/*
+    $result = [];
+    foreach ($directories as $directory) {
+        $listOfEmptyDirectories = iter($directory, $rootName, $path);
+        $result[] = $listOfEmptyDirectories;
+    }
+*/
+
+    return array_flatten($result);
+}
+
+function findFilesByName(array $tree, string $needle)
+{
+    return iter2($tree, $needle, getName($tree));
+}
+
+function iter2(array $tree, string $needle, string $rootName, string $path = '')
+{
+    $name = getName($tree);
+
+    if ($name != $rootName) {
+        $path .= "/{$name}";
+    }
+
+    if (isFile($tree)) {
+        if (str_contains($name, $needle)) {
+            return $path;
+        }
+        return [];
+    }
+    $children = getChildren($tree);
+
+    $result = array_map(function ($child) use ($needle, $rootName, $path) {
+        return iter2($child, $needle, $rootName, $path);
+    }, $children);
+
+    return $result;
 }

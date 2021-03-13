@@ -11,7 +11,8 @@ require __DIR__ . '/vendor/autoload.php';
 use function Php\Immutable\Fs\Trees\trees\mkdir;
 use function Php\Immutable\Fs\Trees\trees\mkfile;
 use function Php\Immutable\Fs\Trees\trees\getChildren;
-use function App\trees\du;
+use function App\trees\findFilesByName;
+use function App\trees\testReduce;
 
 $tree = mkdir('/', [
     mkdir('etc', [
@@ -29,5 +30,5 @@ $tree = mkdir('/', [
     mkfile('resolve', ['size' => 1000]),
 ]);
 
-print_r(du(getChildren($tree)[0]));
+print_r(findFilesByName($tree, "co"));
 echo PHP_EOL;
