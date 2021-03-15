@@ -246,10 +246,10 @@ $tree = mkdir('/', [
 
 function findEmptyDirPaths($tree)
 {
-    return iter($tree, getName($tree));
+    return iter2($tree, getName($tree));
 }
 
-function iter($tree, $rootName, $path = '')
+function iter2($tree, $rootName, $path = '')
 {
     $name = getName($tree);
     $children = getChildren($tree);
@@ -275,30 +275,29 @@ function iter($tree, $rootName, $path = '')
     return array_flatten($result);
 }
 
-function findFilesByName(array $tree, string $needle)
+function iter($node, $subStr, $ancestry, $acc)
 {
-    return iter2($tree, $needle, getName($tree));
+    $name = getName($node);
+    $newAncestry = ($name === '/') ? '' : "$ancestry/$name";
+    if (isFile($node)) {
+        if (str_contains($name, $subStr)) {
+            $acc[] = $newAncestry;
+            return $acc;
+        }
+        return $acc;
+    }
+
+    return array_reduce(
+        getChildren($node),
+        function ($newAcc, $child) use ($subStr, $newAncestry) {
+            return iter($child, $subStr, $newAncestry, $newAcc);
+        },
+        $acc
+    );
 }
 
-function iter2(array $tree, string $needle, string $rootName, string $path = '')
+
+function findFilesByName($root, $subStr)
 {
-    $name = getName($tree);
-
-    if ($name != $rootName) {
-        $path .= "/{$name}";
-    }
-
-    if (isFile($tree)) {
-        if (str_contains($name, $needle)) {
-            return $path;
-        }
-        return [];
-    }
-    $children = getChildren($tree);
-
-    $result = array_map(function ($child) use ($needle, $rootName, $path) {
-        return iter2($child, $needle, $rootName, $path);
-    }, $children);
-
-    return $result;
+    return iter($root, $subStr, '', []);
 }
