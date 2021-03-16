@@ -2,6 +2,9 @@
 
 namespace App\Arrays;
 
+use function Funct\Collection\tail;
+use function Funct\Strings\length;
+
 //которая принимает на вход имя сайта и возвращает информацию о нем:
 function getDomainInfo(string $url)
 {
@@ -125,7 +128,7 @@ function getMirrorMatrix(array $matrix)
             } else {
                 $resultRow[$i] = $row[$length - 1 - $i];
             }
-        //$resultRow[$i] = $row[$i];
+            //$resultRow[$i] = $row[$i];
         }
         //$result[] = [...$resultRow, ...array_reverse($resultRow)];
         $result[] = $resultRow;
@@ -382,4 +385,72 @@ function findWhere(array $recordsList, array $filtersList)
     });
     return $result;
     //return null;
+}
+
+function calcInPolishNotation(array $expression)
+{
+    $operatorList = ['+', '-', '*', '/'];
+    $stack = [];
+
+    foreach ($expression as $value) {
+        if (!in_array($value, $operatorList)) {
+            array_push($stack, $value);
+            continue;
+        }
+
+        $b = array_pop($stack);
+        $a = array_pop($stack);
+        array_push($stack, calculate($value, $a, $b));
+    }
+
+    return $stack[0];
+}
+
+function calculate(string $operator, $a, $b)
+{
+    switch ($operator) {
+        case '+':
+            return $a + $b;
+            break;
+        case '-':
+            return $a - $b;
+            break;
+        case '*':
+            return $a * $b;
+            break;
+        case '/':
+            return $a / $b;
+            break;
+    }
+}
+
+function buildSnailPath(array $matrix)
+{
+    $result = [];
+    while(count($matrix) > 1) {
+        [$head] = $matrix;
+        $tail = array_slice($matrix, 1);
+        $result = array_merge($result, $head);
+        $matrix = rotateLeft($tail);
+    }
+    
+    return array_merge($result, ...$matrix);
+}
+
+function rotateLeft(array $matrix)
+{
+    if (empty($matrix)) {
+        return [];
+    }
+    $conuntOfRows = count($matrix);
+    $countOfColumns = count($matrix[0]);
+
+    $result = array_fill(0, $countOfColumns, array_fill(0, $conuntOfRows, 0));
+    for ($i = 0; $i < $conuntOfRows; $i++) {
+        for ($j = 0; $j < $countOfColumns; $j++) {
+            $result[$countOfColumns - 1 - $j][$i] = $matrix[$i][$j];
+        }
+    }
+
+    return $result;
 }

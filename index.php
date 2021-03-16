@@ -8,27 +8,18 @@ require __DIR__ . '/vendor/autoload.php';
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
 
-use function Php\Immutable\Fs\Trees\trees\mkdir;
-use function Php\Immutable\Fs\Trees\trees\mkfile;
-use function Php\Immutable\Fs\Trees\trees\getChildren;
-use function App\trees\findFilesByName;
-use function App\trees\testReduce;
+use function App\Arrays\buildSnailPath;
+use function App\Arrays\rotateLeft;
 
-$tree = mkdir('/', [
-    mkdir('etc', [
-        mkdir('apache'),
-        mkdir('nginx', [
-            mkfile('nginx.conf', ['size' => 800]),
-        ]),
-        mkdir('consul', [
-            mkfile('config.json', ['size' => 1200]),
-            mkfile('data', ['size' => 8200]),
-            mkfile('raft', ['size' => 80]),
-        ]),
-    ]),
-    mkfile('hosts', ['size' => 3500]),
-    mkfile('resolve', ['size' => 1000]),
-]);
+print_r(buildSnailPath([
+    [1, 2],
+    [3, 4],
+  ])); // [1, 2, 4, 3]
+  
+   print_r(buildSnailPath([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+  ])); // [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
 
-print_r(findFilesByName($tree, "co"));
-echo PHP_EOL;
+  print_r(rotateLeft([]));
