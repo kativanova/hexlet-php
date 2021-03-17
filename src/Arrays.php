@@ -454,3 +454,21 @@ function rotateLeft(array $matrix)
 
     return $result;
 }
+
+/* Возвращает указанную строку треугольника паскаля в виде массива */
+function generate(int $numOfTheRow)
+{
+    $prevRow = [1];
+
+    for ($row = 1; $row <= $numOfTheRow; $row++) {
+        $currRow = [];
+        for ($i = 0; $i <= $row; $i++) {
+            $first = $prevRow[$i - 1] ?? 0;
+            $second = $prevRow[$i] ?? 0;
+
+            $currRow[] = $first + $second;
+        }
+        $prevRow = $currRow;
+    }
+    return $prevRow;
+}
