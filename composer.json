@@ -15,7 +15,8 @@
             "src/Map.php",
             "src/Functions.php",
             "src/Url.php",
-            "src/Trees.php"
+            "src/Trees.php",
+            "src2022/Solution.php"
         ]
     },
     "description": "example package",
