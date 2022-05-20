@@ -8,14 +8,15 @@ require __DIR__ . '/vendor/autoload.php';
 // Файл не включается на прямую
 // Он загрузится автоматически благодаря автозагрузке
 
-use function App\Solution\combine;
+use function App\Solution\toRoman;
 
 
-print_r(combine([
-    ['a' => 1, 'b' => 2, 'c' => 3],
-    [],
-    ['a' => 3, 'b' => 2, 'd' => 5],
-    ['a' => 3],
-    ['b' => 4, 'c' => 3, 'd' => 2],
-    ['e' => 9],
-]));
+echo toRoman(46);
+echo PHP_EOL;
+// 'I'
+echo toRoman(59);
+echo PHP_EOL;
+// 'LIX'
+echo toRoman(3000);
+echo PHP_EOL;
+// 'MMM'
