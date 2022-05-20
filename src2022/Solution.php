@@ -46,22 +46,53 @@ function countLetters($lettersList)
     return array_count_values($letters);
 }
 
-const ARABIC = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
-const ROMAN = ['I', 'IV', 'V', 'IX', 'X', 'XL', 'L', 'XC', 'C', 'CD', 'D', 'CM', 'M'];
+const NUMERALS = [
+    "M" => 1000,
+    "CM" => 900,
+    "D" => 500,
+    "CD" => 400,
+    "C" => 100,
+    "XC" => 90,
+    "L" => 50,
+    "XL" => 40,
+    "X" => 10,
+    "IX" => 9,
+    "V" => 5,
+    "IV" => 4,
+    "I" => 1,
+];
 
 function toRoman($number)
 {
-    $position = count(ARABIC) - 1;
-    $roman = '';
-
-    while ($number > 0) {
-        if ($number >= ARABIC[$position]) {
-            $roman = $roman . ROMAN[$position];
-            $number -= ARABIC[$position];
-        } else {
-            $position -= 1;
+    $result = '';
+    foreach(NUMERALS as $roman => $arabic) {
+        if ($number >= $arabic) {
+            $result .= str_repeat($roman, $number / $arabic);
+            $number %= $arabic;
         }
     }
 
-    return $roman;
+    return $result;
+}
+
+function toArabic($number)
+{
+    $result = 0;
+    $position = 0;
+    while ($position < strlen($number)) {
+        $two_letter_number = substr($number, $position, 2);
+        $one_letter_number = $number[$position];
+        
+        if (array_key_exists($two_letter_number, NUMERALS)) {
+            $result += NUMERALS[$two_letter_number];
+            $position += 2;
+        } elseif (array_key_exists($one_letter_number, NUMERALS)) {
+            $result += NUMERALS[$one_letter_number];
+            $position += 1;
+        } else {
+            return false;
+        }
+    }
+
+    return $result;
 }
