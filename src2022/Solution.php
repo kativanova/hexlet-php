@@ -65,7 +65,7 @@ const NUMERALS = [
 function toRoman($number)
 {
     $result = '';
-    foreach(NUMERALS as $roman => $arabic) {
+    foreach (NUMERALS as $roman => $arabic) {
         if ($number >= $arabic) {
             $result .= str_repeat($roman, $number / $arabic);
             $number %= $arabic;
@@ -79,20 +79,24 @@ function toArabic($number)
 {
     $result = 0;
     $position = 0;
-    while ($position < strlen($number)) {
-        $two_letter_number = substr($number, $position, 2);
-        $one_letter_number = $number[$position];
-        
-        if (array_key_exists($two_letter_number, NUMERALS)) {
-            $result += NUMERALS[$two_letter_number];
-            $position += 2;
-        } elseif (array_key_exists($one_letter_number, NUMERALS)) {
-            $result += NUMERALS[$one_letter_number];
-            $position += 1;
+
+    foreach (NUMERALS as $roman => $arabic) {
+        $partOfNumber = substr($number, $position, strlen($roman));
+        $counter = 0;
+        while ($partOfNumber === $roman) {
+            $position += strlen($roman);
+            $counter += 1;
+            $partOfNumber = substr($number, $position, strlen($roman));
+        }
+        if (
+            $counter > 3
+            || ((strlen($roman) === 2) && $counter > 1)
+        ) {
+                return false;
         } else {
-            return false;
+            $result += $counter * $arabic;
         }
     }
 
-    return $result;
+    return $position === strlen($number) ? $result : false;
 }

@@ -21,5 +21,5 @@ echo toRoman(3000);
 echo PHP_EOL;
 // 'MMM' */
 
-echo toArabic('XXIVI');
+echo toArabic('IX');
 // 3000
